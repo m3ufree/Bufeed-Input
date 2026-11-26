@@ -2,8 +2,8 @@
 // Автор: m3ufree
 
 #include <Geode/Geode.hpp>
-#include <Geode/binding/GJBaseGameLayer.hpp>
-#include <Geode/binding/PlayLayer.hpp>
+#include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Geode/modify/PlayLayer.hpp>
 #include <Geode/binding/PlayerObject.hpp>
 #include <Geode/utils/cocos.hpp>
 
