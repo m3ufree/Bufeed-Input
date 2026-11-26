@@ -51,7 +51,7 @@ jobs:
 
       - name: Package platforms into ZIP
         run: |
-          cd "${{ steps.build.outputs.build-path }}"
+          cd "${{ steps.build.outputs.build-output }}"
           zip -r "${{ github.workspace }}/bufeed-input-${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}.zip" .
 
       - name: Create Release
@@ -60,11 +60,11 @@ jobs:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           name: Input Buffer ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           body: |
-            ## Input Buffer v1.0.2
+            ## Input Buffer v1.0.3
             - `.geode` — установите через **Install from file** в меню модов Geode
             - ZIP — сборки по платформам (Win64 / macOS / Android64)
 
             Требования: Geometry Dash 2.2091, Geode 6.0.0+
           files: |
-            ${{ steps.build.outputs.mod-path }}
+            ${{ steps.build.outputs.build-output }}/*.geode
             bufeed-input-${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}.zip
