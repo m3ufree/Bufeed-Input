@@ -20,11 +20,6 @@ jobs:
           - name: Windows
             os: windows-latest
             target: Win64
-          # macOS-раннеры часто недоступны (недостаточно мощиностей GitHub):
-          # не блокируем релиз, если сборка macOS не удалась
-          - name: macOS
-            os: macos-latest
-            target: MacOS
           - name: Android64
             os: ubuntu-latest
             target: Android64
@@ -39,7 +34,7 @@ jobs:
           sdk: v6.0.0
           target: ${{ matrix.config.target }}
           combine: true
-        continue-on-error: ${{ matrix.config.name == 'macOS' }}
+        continue-on-error: false
 
   release:
     name: Create Release
@@ -63,11 +58,12 @@ jobs:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           name: Input Buffer ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           body: |
-            ## Input Buffer v1.0.4
+            ## Input Buffer v1.0.5
             - `.geode` — установите через **Install from file** в меню модов Geode
             - ZIP — сборки по платформам (Win64 / macOS / Android64)
 
             Требования: Geometry Dash 2.2091, Geode 6.0.0+
+            Сборки: Win64, Android64 (macOS временно отключена из-за нехватки раннеров GitHub)
           files: |
             ${{ steps.build.outputs.build-output }}/*.geode
             bufeed-input-${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}.zip
