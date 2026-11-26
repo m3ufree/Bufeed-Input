@@ -7,7 +7,7 @@
     },
     "id": "m3ufree.bufeed-input",
     "name": "Input Buffer",
-    "version": "v1.0.1",
+    "version": "v1.0.2",
     "developer": "m3ufree",
     "description": "Буферизация нажатий: если нажал в воздухе — сработает при приземлении.",
     "repository": "https://github.com/m3ufree/Bufeed-Input",

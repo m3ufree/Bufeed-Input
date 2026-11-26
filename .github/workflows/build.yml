@@ -60,7 +60,7 @@ jobs:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           name: Input Buffer ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           body: |
-            ## Input Buffer v1.0.1
+            ## Input Buffer v1.0.2
             - `.geode` — установите через **Install from file** в меню модов Geode
             - ZIP — сборки по платформам (Win64 / macOS / Android64)
 
