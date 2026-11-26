@@ -20,6 +20,8 @@ jobs:
           - name: Windows
             os: windows-latest
             target: Win64
+          # macOS-раннеры часто недоступны (недостаточно мощиностей GitHub):
+          # не блокируем релиз, если сборка macOS не удалась
           - name: macOS
             os: macos-latest
             target: MacOS
@@ -37,6 +39,7 @@ jobs:
           sdk: v6.0.0
           target: ${{ matrix.config.target }}
           combine: true
+        continue-on-error: ${{ matrix.config.name == 'macOS' }}
 
   release:
     name: Create Release
@@ -60,7 +63,7 @@ jobs:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           name: Input Buffer ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
           body: |
-            ## Input Buffer v1.0.3
+            ## Input Buffer v1.0.4
             - `.geode` — установите через **Install from file** в меню модов Geode
             - ZIP — сборки по платформам (Win64 / macOS / Android64)
 
