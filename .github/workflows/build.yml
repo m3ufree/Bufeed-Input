@@ -1,0 +1,70 @@
+name: Build Mod
+
+# Сборка всех платформ и публикация релиза:
+# - автоматически при пуше тега вида v1.0.0
+# - вручную через Actions -> Run workflow (тег v1.0.0 создаётся при публикации релиза)
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build (${{ matrix.config.name }})
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Windows
+            os: windows-latest
+            target: Win64
+          - name: macOS
+            os: macos-latest
+            target: MacOS
+          - name: Android64
+            os: ubuntu-latest
+            target: Android64
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Geode SDK and Build
+        uses: geode-sdk/build-geode-mod@main
+        id: build
+        with:
+          sdk: v6.0.0
+          target: ${{ matrix.config.target }}
+          combine: true
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: ['build']
+    permissions:
+      contents: write
+    steps:
+      - name: Combine platform builds
+        uses: geode-sdk/build-geode-mod/combine@main
+        id: build
+
+      - name: Package platforms into ZIP
+        run: |
+          cd "${{ steps.build.outputs.build-path }}"
+          zip -r "${{ github.workspace }}/bufeed-input-${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}.zip" .
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
+          name: Input Buffer ${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}
+          body: |
+            ## Input Buffer v1.0.0
+            - `.geode` — установите через **Install from file** в меню модов Geode
+            - ZIP — сборки по платформам (Win64 / macOS / Android64)
+
+            Требования: Geometry Dash 2.2091, Geode 6.0.0+
+          files: |
+            ${{ steps.build.outputs.mod-path }}
+            bufeed-input-${{ github.ref_type == 'tag' && github.ref_name || 'v1.0.0' }}.zip

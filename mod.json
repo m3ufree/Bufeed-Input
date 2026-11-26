@@ -1,0 +1,37 @@
+{
+    "geode": "6.0.0",
+    "gd": {
+        "win": "2.2091",
+        "mac": "2.2091",
+        "android": "2.2091"
+    },
+    "id": "m3ufree.bufeed-input",
+    "name": "Input Buffer",
+    "version": "v1.0.0",
+    "developer": "m3ufree",
+    "description": "Буферизация нажатий: если нажал в воздухе — сработает при приземлении.",
+    "repository": "https://github.com/m3ufree/Bufeed-Input",
+    "tags": ["utility", "gameplay"],
+    "settings": {
+        "enabled": {
+            "name": "Включить Input Buffer",
+            "description": "Вкл/выкл буферизацию нажатий",
+            "type": "bool",
+            "default": true
+        },
+        "buffer-window": {
+            "name": "Окно буфера (мс)",
+            "description": "Сколько миллисекунд нажатие живёт в буфере",
+            "type": "float",
+            "default": 60.0,
+            "min": 0.0,
+            "max": 200.0,
+            "control": {
+                "slider": true,
+                "arrow": false,
+                "input": false,
+                "step": 5.0
+            }
+        }
+    }
+}
